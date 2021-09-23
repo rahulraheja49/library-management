@@ -13,7 +13,7 @@ exports.signup = async (req, res) => {
     User.findOne({ email }).then((currentUser) => {
       if (currentUser) {
         return res.send({
-          msg: "user already exists, please log in instead",
+          msg: "User already exists, please log in instead",
           success: false,
         });
       } else {

@@ -13,6 +13,8 @@ const app = express();
 const http = require("http").Server(app);
 const db = require("./config/db");
 const Auth = require("./routes/Auth");
+const Book = require("./routes/Book");
+const User = require("./routes/User");
 
 db();
 app.use(cors());
@@ -35,6 +37,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/api/auth", Auth);
+app.use("/api/books", Book);
+app.use("/api/users", User);
 
 const PORT = process.env.PORT || 5000;
 

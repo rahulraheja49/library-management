@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+const Book = require("./Book");
+
 const userSchema = new Schema({
   fullName: {
     type: String,
@@ -18,6 +20,14 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  borrowedBooks: [
+    {
+      bookId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "book",
+      },
+    },
+  ],
 });
 
 const User = mongoose.model("user", userSchema);

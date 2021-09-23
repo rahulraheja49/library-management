@@ -5,21 +5,23 @@ const cors = require("cors");
 const Book = require("../models/Book");
 const controller = require("../controllers/Book");
 
-const { borrowBook, addBook, findAllBooks, requestBook, returnBook } =
+const { borrowBook, addBook, findAllAvailableBooks, requestBook, returnBook } =
   controller;
+
+const { userAuth, adminAuth } = require("../middleware/auth");
 
 router.use(express.json());
 router.use(cors());
 router.use(express.urlencoded({ extended: false }));
 
-router.post("/borrowBook", borrowBook);
+router.post("/borrowBook", userAuth, borrowBook);
 
 router.post("/addBook", addBook);
 
-router.post("/findAllBooks", findAllBooks);
+router.get("/findAllAvailableBooks", findAllAvailableBooks);
 
-router.post("/requestBook", requestBook);
+router.post("/requestBook", userAuth, requestBook);
 
-router.post("/returnBook", returnBook);
+router.post("/returnBook", userAuth, returnBook);
 
 module.exports = router;

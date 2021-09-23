@@ -10,31 +10,44 @@ const bookSchema = new Schema({
   title: {
     type: String,
   },
-  borrowedBooks: {
-    type: Number,
-    default: 0,
+  // borrowedBooks: {
+  //   type: Number,
+  //   default: 0,
+  // },
+  // totalBooks: {
+  //   type: Number,
+  //   default: 1,
+  // },
+  // instances: [
+  //   {
+  //     bookStatus: {
+  //       type: String,
+  //       enum: ["available", "borrowed"],
+  //       default: "available",
+  //     },
+  //     returnOn: {
+  //       type: Date,
+  //       default: null
+  //     },
+  //     borrowedBy: {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: User,
+  //       default: null,
+  //     },
+  //   },
+  // ],
+  bookStatus: {
+    type: String,
+    enum: ["available", "borrowed"],
+    default: "available",
   },
-  totalBooks: {
-    type: Number,
-    default: 1,
+  returnOn: {
+    type: Date,
   },
-  instances: [
-    {
-      bookStatus: {
-        type: String,
-        enum: ["available", "borrowed"],
-        default: "available",
-      },
-      returnOn: {
-        type: Date,
-      },
-      borrowedBy: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: User,
-        default: null,
-      },
-    },
-  ],
+  borrowedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "user",
+  },
 });
 
 const Book = mongoose.model("book", bookSchema);
