@@ -15,6 +15,7 @@ const db = require("./config/db");
 const Auth = require("./routes/Auth");
 const Book = require("./routes/Book");
 const User = require("./routes/User");
+const Admin = require("./routes/Admin");
 
 db();
 app.use(cors());
@@ -39,6 +40,7 @@ app.use((req, res, next) => {
 app.use("/api/auth", Auth);
 app.use("/api/books", Book);
 app.use("/api/users", User);
+app.use("/api/admins", Admin);
 
 const PORT = process.env.PORT || 5000;
 

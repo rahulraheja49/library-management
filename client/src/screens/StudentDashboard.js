@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Form, Button, Col, Row } from "react-bootstrap";
+import { Form, Button, Col, Row, Accordion } from "react-bootstrap";
 import toast, { Toaster } from "react-hot-toast";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
@@ -12,7 +12,8 @@ export default function StudentDashboard() {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [myBooks, setMyBooks] = useState([]);
-  const [returnBook, setReturnBook] = useState("");
+  const [num, setNum] = useState(0);
+  const [fine, setFine] = useState(0);
 
   const history = useHistory();
 
@@ -36,19 +37,20 @@ export default function StudentDashboard() {
         });
 
       axios
-        .get("/api/users/getBorrowedBooks", {
+        .get("/api/users/getUserDetails", {
           headers: {
             "x-auth-token": user,
           },
         })
         .then((res) => {
           setMyBooks(res.data.myBooks);
+          setFine(res.data.fineAmt);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, []);
+  }, [user, history, num]);
 
   const borrowBook = () => {
     axios
@@ -67,6 +69,7 @@ export default function StudentDashboard() {
         console.log(res);
         if (res.data.success) {
           toast.success("Book borrowed");
+          setNum(num + 1);
         } else {
           toast.error("Some error occoured");
         }
@@ -77,9 +80,33 @@ export default function StudentDashboard() {
       });
   };
 
-  const requestBook = () => {};
-
-  const bookReturn = () => {};
+  const requestBook = () => {
+    axios
+      .post(
+        "/api/books/requestBook",
+        {
+          title,
+          author,
+        },
+        {
+          headers: {
+            "x-auth-token": user,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.data.success) {
+          toast.success("Request Made");
+        } else {
+          toast.error("Some error occoured");
+        }
+      })
+      .catch((err) => {
+        toast.error("Some error occoured");
+        console.log(err);
+      });
+  };
 
   return (
     <div>
@@ -87,7 +114,7 @@ export default function StudentDashboard() {
       <Toaster position="top-right" />
       <Row style={{ margin: 0 }}>
         <Col style={{ flex: 0.2 }}></Col>
-        <Col className="border border-dark">
+        <Col style={{ borderRadius: 10 }} className="border border-secondary">
           <h5 className="mt-4">Borrow book</h5>
           <Form className="justify-content-center w-100 mt-5">
             <Form.Select
@@ -110,7 +137,7 @@ export default function StudentDashboard() {
           </Form>
         </Col>
         <Col style={{ flex: 0.2 }}></Col>
-        <Col className="border border-dark">
+        <Col style={{ borderRadius: 10 }} className="border border-secondary">
           <h5 className="mt-4">Request Book</h5>
           <Form className="justify-content-center w-100 mt-3">
             <Form.Group className="mb-4">
@@ -134,35 +161,42 @@ export default function StudentDashboard() {
             </Form.Group>
 
             <Button variant="outline-primary mb-4" onClick={requestBook}>
-              Log In
+              Request Book
             </Button>
           </Form>
         </Col>
         <Col style={{ flex: 0.2 }}></Col>
       </Row>
-      <Row style={{ margin: 0 }} className="mt-3">
+      <Row style={{ margin: 0 }} className="mt-3 mb-5">
         <Col style={{ flex: 0.1, padding: 6 }}></Col>
-        <Col className="border border-dark">
-          <h5 className="mt-4">Return book</h5>
-          <Form className="justify-content-center w-100 mt-5">
-            <Form.Select
-              value={returnBook}
-              onChange={(event) => setReturnBook(event.target.value)}
-              aria-label="Default select example"
-              className="mb-4"
-            >
-              <option value={0}>Select an option</option>
+        <Col style={{ borderRadius: 10 }} className="border border-secondary">
+          <Row>
+            <Col>
+              <h5 className="mt-3">Books currently with you</h5>
+            </Col>
+            <Col>
+              <h6 className="mt-4">Current fine: {fine}</h6>
+            </Col>
+          </Row>
+          {myBooks.length !== 0 ? (
+            <Accordion className="mb-4">
               {myBooks.map((item) => (
-                <option key={item.bookId._id} value={item.bookId._id}>
-                  {item.bookId.title} - {item.bookId.author}
-                </option>
+                <Accordion.Item eventKey={item.bookId.title}>
+                  <Accordion.Header>{item.bookId.title}</Accordion.Header>
+                  <Accordion.Body>
+                    <Row>
+                      <Col className="mb-0">{item.bookId.author}</Col>
+                      <Col className="mb-0">
+                        Due on: {item.bookId.returnOn.substring(0, 10)}
+                      </Col>
+                    </Row>
+                  </Accordion.Body>
+                </Accordion.Item>
               ))}
-            </Form.Select>
-
-            <Button variant="outline-primary mb-4 mt-2" onClick={bookReturn}>
-              Return Book
-            </Button>
-          </Form>
+            </Accordion>
+          ) : (
+            <h4 className="mb-3">No books borrowed</h4>
+          )}
         </Col>
         <Col style={{ flex: 0.1, padding: 6 }} className="mt-2"></Col>
       </Row>

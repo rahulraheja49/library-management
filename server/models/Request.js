@@ -2,8 +2,12 @@ const mongoose = require("mongoose");
 const User = require("./User");
 const Schema = mongoose.Schema;
 
-const reviewSchema = new Schema({
-  text: {
+const requestSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  author: {
     type: String,
     required: true,
   },
@@ -13,6 +17,6 @@ const reviewSchema = new Schema({
   },
 });
 
-const Review = mongoose.model("review", reviewSchema);
+const Request = mongoose.model("request", requestSchema);
 
-module.exports = Review;
+module.exports = Request;

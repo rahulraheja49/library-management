@@ -22,6 +22,6 @@ router.get("/findAllAvailableBooks", findAllAvailableBooks);
 
 router.post("/requestBook", userAuth, requestBook);
 
-router.post("/returnBook", userAuth, returnBook);
+router.post("/returnBook", adminAuth, returnBook);
 
 module.exports = router;
