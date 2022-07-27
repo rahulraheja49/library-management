@@ -8,6 +8,7 @@ import HomeScreen from "./screens/HomeScreen";
 import Login from "./screens/Login";
 import AdminLogin from "./screens/AdminLogin";
 import Signup from "./screens/Signup";
+import AddBook from "./screens/AddBook";
 import StudentDashboard from "./screens/StudentDashboard";
 import { UserProvider } from "./context/UserContext";
 import { AdminProvider } from "./context/AdminContext";
@@ -30,6 +31,7 @@ function App() {
             <Route path="/dashboard" exact component={StudentDashboard} />
             <AdminProvider value={{ admin, setAdmin }}>
               <Route path="/admin-login" exact component={AdminLogin} />
+              <Route path="/add-book" exact component={AddBook} />
               <Route path="/admin-dashboard" exact component={AdminDashboard} />
             </AdminProvider>
           </Switch>

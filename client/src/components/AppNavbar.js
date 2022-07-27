@@ -42,9 +42,14 @@ export default function AppNavbar() {
             </Link>
           )}
           {admin && (
-            <Link className="nav-link" to="/admin-dashboard">
-              Dashboard
-            </Link>
+            <>
+              <Link className="nav-link" to="/admin-dashboard">
+                Dashboard
+              </Link>
+              <Link className="nav-link" to="/add-book">
+                Add Book
+              </Link>
+            </>
           )}
           {(user || admin) && <Nav.Link onClick={signOut}>Sign Out</Nav.Link>}
         </Nav>

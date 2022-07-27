@@ -1,8 +1,5 @@
 const router = require("express").Router();
-const express = require("express");
-const cors = require("cors");
 
-const Book = require("../models/Book");
 const controller = require("../controllers/Book");
 
 const { borrowBook, addBook, findAllAvailableBooks, requestBook, returnBook } =
@@ -10,13 +7,9 @@ const { borrowBook, addBook, findAllAvailableBooks, requestBook, returnBook } =
 
 const { userAuth, adminAuth } = require("../middleware/auth");
 
-router.use(express.json());
-router.use(cors());
-router.use(express.urlencoded({ extended: false }));
-
 router.post("/borrowBook", userAuth, borrowBook);
 
-router.post("/addBook", addBook);
+router.post("/addBook", adminAuth, addBook);
 
 router.get("/findAllAvailableBooks", findAllAvailableBooks);
 
