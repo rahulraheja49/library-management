@@ -2,7 +2,7 @@
 
 ## Direct run
 
-### Instructions to run server after cloning:
+#### Instructions to run server after cloning:
 
 - cd server
 - npm i
@@ -10,7 +10,7 @@
 - add environment variable JWT_SECRET_BCRYPT (This is a string that shouldn't be revealed)
 - npm start
 
-### Instructions to run client after cloning:
+#### Instructions to run client after cloning:
 
 - cd client
 - npm i
@@ -18,7 +18,7 @@
 
 ## Run on docker
 
-### Instructions to build images:
+#### Instructions to build images:
 
 - Run the make file in the client and server by changing directories and running `make build` in each directory
 - Run the make file in the main directory using `make run-dev`
