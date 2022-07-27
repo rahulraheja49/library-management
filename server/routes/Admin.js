@@ -1,9 +1,5 @@
 const router = require("express").Router();
-const express = require("express");
-const cors = require("cors");
 
-const Book = require("../models/Book");
-const Admin = require("../models/Admin");
 const controller = require("../controllers/Admin");
 const { adminAuth } = require("../middleware/auth");
 
@@ -18,7 +14,7 @@ const {
 
 router.get("/viewReviews", adminAuth, viewReviews);
 
-router.post("/signup", adminAuth, signup);
+router.post("/signup", signup);
 
 router.post("/login", login);
 
