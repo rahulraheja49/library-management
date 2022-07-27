@@ -20,8 +20,15 @@
 
 #### Instructions to build images:
 
+##### Method 1
+
 - Run the make file in the client and server by changing directories and running `make build` in each directory
 - Run the make file in the main directory using `make run-dev`
+
+##### Method 2
+
+- Run the make file in the client and server by changing directories and running `make build` in each directory
+- Run the command `docker compose -f "docker-compose-static.yml" up -d --build` on the terminal
 
 #### Note:
 

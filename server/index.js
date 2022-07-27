@@ -1,5 +1,6 @@
 require("dotenv").config();
 
+const path = require("path");
 const express = require("express");
 const cors = require("cors");
 const chalk = require("chalk");
@@ -25,6 +26,7 @@ app.use(mongoSanitize());
 app.use(helmet());
 app.use(hpp());
 app.use(xss());
+app.use(express.static("build"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -44,9 +46,13 @@ app.use("/api/admins", Admin);
 
 const PORT = process.env.PORT || 5000;
 
-app.get("/", (req, res) => {
-  res.json({ Msg: "Library management system" });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build/index.html"));
 });
+
+// app.get("/", (req, res) => {
+//   res.json({ Msg: "Library management system" });
+// });
 
 http.listen(PORT, () => {
   console.log(chalk.blue(`Listening on port ${PORT}`));
